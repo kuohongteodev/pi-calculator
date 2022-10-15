@@ -1,23 +1,56 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import { Grid } from "@mui/material";
+import io from "socket.io-client";
+
+const socket = io("http://localhost:8888/");
 
 function App() {
+  const [isConnected, setIsConnected] = useState(socket.connected);
+
+  const pingServer = () => {
+    if (isConnected) {
+      socket.emit("get");
+    }
+  };
+
+  useEffect(() => {
+    socket.on("connect", () => {
+      console.log();
+      setIsConnected(true);
+      socket.emit("get", "hehe");
+    });
+
+    socket.on("disconnect", () => {
+      setIsConnected(false);
+    });
+
+    socket.on("get", (arg) => {
+      console.log("get", arg);
+    });
+
+    // socket.emit("get", "hehe");
+
+    return () => {
+      socket.off("connect");
+      socket.off("disconnect");
+      socket.off("pong");
+    };
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        {/* <img src={logo} className="App-logo" alt="logo" /> */}
+        <Grid container>
+          <Grid item>
+            <p>{isConnected.toString()}</p>
+          </Grid>
+          <Grid item>2</Grid>
+        </Grid>
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <button onClick={pingServer}>Get timer current time</button>
       </header>
     </div>
   );
