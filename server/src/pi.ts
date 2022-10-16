@@ -1,6 +1,6 @@
 function mod(m: number, n: number) {
   return ((m % n) + n) % n;
-} // mod function to fix javascript modulo bug
+}
 
 function calculatePi(NDIGITS: number) {
   var LEN = (NDIGITS / 4 + 1) * 14,
@@ -15,8 +15,8 @@ function calculatePi(NDIGITS: number) {
     h = 0;
 
   for (; a.length !== LEN; a.push(0));
-  for (; (b = c -= 14) > 0; ) {
-    for (; --b > 0; ) {
+  for (; (b = c -= 14) > 0;) {
+    for (; --b > 0;) {
       d *= b;
       if (h === 0) {
         d += 2000 * f;
@@ -36,10 +36,9 @@ function calculatePi(NDIGITS: number) {
 }
 
 export default function calculatePiValue(callback: (x: string) => void) {
-  let initial = 2;
+  let initial = 0;
   setInterval(() => {
     initial += 2;
     callback(calculatePi(initial));
-  }, 200);
+  }, 2000);
 }
-// console.log(calculatePi(3));
