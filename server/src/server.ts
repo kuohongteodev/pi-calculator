@@ -17,9 +17,11 @@ const io = new Server(server, {
 let value = "";
 
 io.on("connection", () => {
-  calculatePiValue((x) => {
-    value = x;
-  });
+  if (value === "") {
+    calculatePiValue((x) => {
+      value = x;
+    });
+  }
 });
 
 app.get("/getpi", (req, res) => {
