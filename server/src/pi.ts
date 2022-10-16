@@ -39,7 +39,6 @@ export default function calculatePiValue(callback: (x: string) => void) {
   let initial = 0;
   setInterval(() => {
     initial += 2;
-    console.log(initial)
     callback(calculatePi(initial));
   }, 2000);
 }
