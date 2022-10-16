@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Grid } from "@mui/material";
+import { Button, Card, Container, Grid, makeStyles, Typography } from "@mui/material";
 import io from "socket.io-client";
 import Big from 'big.js';
 
 const socket = io("http://localhost:8888/");
+
 
 function App() {
   const [isConnected, setIsConnected] = useState(socket.connected);
@@ -11,12 +12,6 @@ function App() {
   const [piValue, setPiValue] = useState("0");
 
   const diameterOfTheSun = 1.3927 * 1000000;
-
-  const pingServer = () => {
-    if (isConnected) {
-      socket.emit("get");
-    }
-  };
 
   const fetchPi = async () => {
     setIsFetching(true);
@@ -28,20 +23,12 @@ function App() {
 
   useEffect(() => {
     socket.on("connect", () => {
-      console.log();
       setIsConnected(true);
-      socket.emit("get", "hehe");
     });
 
     socket.on("disconnect", () => {
       setIsConnected(false);
     });
-
-    socket.on("get", (arg) => {
-      console.log("get", arg);
-    });
-
-    // socket.emit("get", "hehe");
 
     return () => {
       socket.off("connect");
@@ -51,24 +38,41 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        {/* <img src={logo} className="App-logo" alt="logo" /> */}
-        <Grid container>
+    <Container>
+      <section>
+        <Typography variant="h1" align="center">
+          Pi Calculator
+        </Typography>
+      </section>
+      <div>
+        <Grid container spacing={8} justifyContent="center">
           <Grid item>
-            <p>{isConnected.toString()}</p>
+            <Card sx={{ padding: "48px" }}>
+              <Typography variant="h2">
+                Current Known Value of Pi
+              </Typography>
+              <Typography variant="body1" sx={{ wordBreak: "break-all", whiteSpace: "normal" }}>
+                {new Big(piValue).toString()}
+              </Typography>
+            </Card>
           </Grid>
-          <Grid item>2</Grid>
+          <Grid item>
+            <Card sx={{ padding: "48px" }}>
+              <Typography variant="h2">
+                Circumferrence Of The Sun
+              </Typography>
+              <Typography variant="body1" sx={{ wordBreak: "break-all", whiteSpace: "normal" }}>
+                {new Big(piValue).times(diameterOfTheSun).toString()} million kilometers
+              </Typography>
+            </Card>
+          </Grid>
         </Grid>
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <button onClick={fetchPi}>Get timer current time</button>
-        <p>{new Big(piValue).toString()}</p>
-        <p>Diameter {new Big(piValue).times(diameterOfTheSun).toString()}</p>
-      </header>
+        <Button variant="contained" onClick={fetchPi} sx={{ margin: "48px auto", padding: "24px", display: "block" }}>
+          Get Latest Pi Calculation
+        </Button>
+      </div>
+    </Container >
 
-    </div>
   );
 }
 
