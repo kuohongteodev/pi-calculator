@@ -55,11 +55,11 @@ A webpage with URL http://localhost:3000/ should open automatically after runnin
 
 ## Limitation
 
-### No Database involved. Calculation will reset once the server is stopped.
-### Server calculates Pi value every 2 seconds to prevent crashes
+#### No Database involved. Calculation will reset once the server is stopped.
+#### Server calculates Pi value every 2 seconds to prevent crashes
 
 ## Future Improvement
 
-### We can run the calculation a Cloud Server to prevent unforseen circumstances like electricity shortage if local devices are used as server
-### Involvement of database to keep the calculation running 
-### UI improvement (Timestamp, Animation)
+#### We can run the calculation a Cloud Server to prevent unforseen circumstances like electricity shortage if local devices are used as server
+#### Involvement of database to keep the calculation running 
+#### UI improvement (Timestamp, Animation)
